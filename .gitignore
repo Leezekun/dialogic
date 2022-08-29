@@ -1,0 +1,11 @@
+*models/
+*resources/
+*experiments/
+*experiments_DST/
+*runs/
+*.pyc
+*model/
+output*/
+resources*/
+.DS_Store
+__pycache__/

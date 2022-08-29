@@ -1,0 +1,25 @@
+absl-py
+pytest
+sacrebleu==1.4.10
+six
+wheel
+progressbar
+tqdm
+pyyaml
+colorama==0.4.4
+en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.2.0/en_core_web_sm-3.2.0-py3-none-any.whl
+fastBPE==0.1.0
+huggingface-hub==0.0.8
+nltk
+numpy
+openai==0.14.0
+pandas
+scikit-learn==1.0.2
+scipy
+sentencepiece
+sklearn
+spacy==3.2.1
+tokenizers
+torch==1.9.0+cu111
+transformers==4.7.0
+gdown
