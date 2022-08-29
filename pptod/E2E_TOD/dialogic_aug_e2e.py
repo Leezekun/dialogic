@@ -37,6 +37,7 @@ def parse_config():
     parser.add_argument('--augment_time', type=int, default=1, help='the augment size compared with the original dataset')
     parser.add_argument('--k_shot', type=int, default=2, help='the maximum number of demo dialogs')
     parser.add_argument('--temperature', type=float, default=0.2, help='the temperature in softmax, for the sampling in combine.')
+    parser.add_argument('--length_limit', type=int, default=2048, help='the length limit of the prompt.')
 
     return parser.parse_args()
 
@@ -451,7 +452,7 @@ def construct_augment_dialog(ref_dialogs_with_turn_info, base_dialogs_with_turn_
                 
                 # avoid too lengthy prompt, try to make the length of two examples and the generated one less than 2048
                 tokenized_prompt_length = len(tokenizer(prompt).input_ids)
-                if tokenized_prompt_length > ((2048/3)*2):
+                if tokenized_prompt_length > args.length_limit:
                     continue
 
                 augment_dialog_with_turn_info['prompt'] = prompt

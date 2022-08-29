@@ -3,11 +3,14 @@ This is the pytorch implementation of **Controllable Dialogue Simulation with In
 
 <p align="center"><img width="75%" src="imgs/demo.gif" /></p>
 
+
 ## Introduction
 Dialogic is a method that can generate and annotate task-oriented dialogues in a fully automatic manner, with in-context learning of large language models such as GPT-3.
 The only requirements are a small seed dataset used to train the verifier and select in-context examples for GPT-3 prompting. 
 
-Taking the [MultiWOZ](https://github.com/budzianowski/multiwoz) for example, given any user goal, such as booking a hotel (area is center, stay is 1, people is 2, bookday is Monday), and a restaurant (area is north, pricerange is moderate), DS-ICL can generate the corresponding dialogue along with annotations. An illustration of the generation process is presented above.
+> We show a [demo](#demo) of how a dialogue is simulated above. You can type into your user goal or use the automatically generated one. Some simulated dialogues are provided in the `./simulated_dialogues` directory.
+
+<!-- Taking the [MultiWOZ](https://github.com/budzianowski/multiwoz) for example, given any user goal, such as booking a hotel (area is center, stay is 1, people is 2, bookday is Monday), and a restaurant (area is north, pricerange is moderate), DS-ICL can generate the corresponding dialogue along with annotations. An illustration of the generation process is presented above. -->
 
 ## Table of Contents
 - [Dialogic: Controllable Dialogue Simulation with In-Context Learning](#dialogic-controllable-dialogue-simulation-with-in-context-learning)
@@ -19,6 +22,7 @@ Taking the [MultiWOZ](https://github.com/budzianowski/multiwoz) for example, giv
     - [Verifier preparation](#verifier-preparation)
   - [Simulation](#simulation)
     - [Dialogue simulation](#dialogue-simulation)
+    - [Format of simulated dialogues](#format-of-simulated-dialogues)
     - [Turn-level simulation](#turn-level-simulation)
     - [Demo](#demo)
   - [Training on simulated dialogues](#training-on-simulated-dialogues)
@@ -27,7 +31,7 @@ Taking the [MultiWOZ](https://github.com/budzianowski/multiwoz) for example, giv
     - [MinTL](#mintl)
 
 ## Preparation
-We use [PPTOD](https://github.com/awslabs/pptod) as the verifier in this codebase. Most data and important files are in `./pptod` directory.
+We use [PPTOD](https://github.com/awslabs/pptod) as the verifier in this codebase. Most data and important files are in `./pptod` directory. 
 
 ### Environment setup
 Set up the environment for PPTOD and SimpleTOD. To set up the environment for MinTL, please refer to `./MinTL/README.md`.
@@ -38,15 +42,16 @@ python -m spacy download en_core_web_sm
 
 ### Data preparation
 We use [MultiWOZ_2.3](https://github.com/lexmen318/MultiWOZ-coref) dataset by default. [MultiWOZ_2.0](https://github.com/budzianowski/multiwoz/blob/master/data/MultiWOZ_2.0.zip), [MultiWOZ_2.1](https://github.com/budzianowski/multiwoz/blob/master/data/MultiWOZ_2.1.zip), and [MultiWOZ_2.4](https://github.com/smartyfh/MultiWOZ2.4) datasets are also supported.
+You can use the following script to prepare the data.
 ```bash
 cd ./pptod/data/multiwoz
-chmod +x ./data_preparation23.sh # MultiWOZ_2.3 dataset (by default)
+chmod +x ./data_preparation23.sh # MultiWOZ_2.3 dataset
 # chmod +x ./data_preparation.sh # MultiWOZ_2.0 dataset
 # chmod +x ./data_preparation21.sh # MultiWOZ_2.1 dataset
 # chmod +x ./data_preparation24.sh # MultiWOZ_2.4 dataset
 ```
 ### Verifier preparation
-We use [PPTOD](https://github.com/awslabs/pptod) as the verifier in this codebase. To use it, you should download the initial checkpoint you want and unzip it in the `./pptod/checkpoints` directory.
+We use [PPTOD](https://github.com/awslabs/pptod) as the verifier in this codebase. To use it, you should download the initial checkpoint you want and unzip it in the `./pptod/checkpoints` directory. We use PPTOD-small by default.
 ```bash
 cd ./pptod/checkpoints
 # Downloading Initial PPTOD-small Checkpoint:
@@ -70,6 +75,7 @@ Some important options include:
   - `--train_data_ratio`: the ratio of training data we use, i.e., the few-shot setting (1% by default).
   - `--ckpt_save_path`: the path where the trained verifier is saved.
 <!-- The trained verifier is saved in `./pptod/E2E_TOD/ckpt23/small/few_shot_0.01/` directory. You can try other few-shot settings by changing `0.01` to any number in (0, 1]. -->
+> We provide the checkpoint of a verifier trained on 1% of the training data, which is placed at `./pptod/E2E_TOD/ckpt23/small/few_shot_0.01/`.
 
 ## Simulation
 Put your OpenAI API key in `./pptod/E2E_TOD/dialogic_utils.py` to use GPT-3!
@@ -118,8 +124,7 @@ Some important options include:
   - `--verify_da`: whether to use the verifier to correct the generated dialog act annotations.
   - `--debug`: whether to print out the simulation process.
   - `--save`: whether to save the simulated dialogues.
-We have put the simulated dialogues under 1%, 5%, and 10% settings in `./pptod/E2E_TOD/simulation_result23/small/few_shot_x` (x in [0.01, 0.05, 0.1]) directory.
-
+  
 You will see the dialogue simulation process as:
 ```console
 Original GPT-3 generation of User: You require([restaurant] area is east): i am looking for a restaurant in the east area
@@ -151,6 +156,22 @@ Assistant: i am sorry we do not have any korean restaurants in the east area .
 --------------------------------------------------------------------------
 ......
 ```
+
+### Format of simulated dialogues
+The simulated dialogues are saved in json format. For each dialogue, we save the following information:
+  - dial_id: the id of the dialogue
+  - turns: a list of turns in this dialogue, where each turn is represented as a dictionary that contains the following fields:
+    - dial_id - the unique ID for the dialogue session instance.
+    - turn_num - this argument indicates the turn position in the dialogue session, e.g., if turn_num = 0 means this is the very first turn in the whole dialogue session
+    - user - the user's utterance.
+    - resp - the delexicalized reference system response.
+    - bspn - the belief state.
+    - aspn - the system action.
+    - db - The database query result.
+  - prompt: the prompt used to instruct GPT-3 to simulate the dialogue.
+  - goal: the user goal of this dialogue. 
+> We have placed the simulated dialogues under 1% settings in `./pptod/E2E_TOD/simulation_result23/small/few_shot_0.01` directory.
+
 
 ### Turn-level simulation
 You can use the following script to start simulating dialogue turns for DST augmentation.
