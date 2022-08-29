@@ -159,18 +159,18 @@ Assistant: i am sorry we do not have any korean restaurants in the east area .
 
 ### Format of simulated dialogues
 The simulated dialogues are saved in json format. For each dialogue, we save the following information:
-  - dial_id: the id of the dialogue
-  - turns: a list of turns in this dialogue, where each turn is represented as a dictionary that contains the following fields:
-    - dial_id - the unique ID for the dialogue session instance.
-    - turn_num - this argument indicates the turn position in the dialogue session, e.g., if turn_num = 0 means this is the very first turn in the whole dialogue session
-    - user - the user's utterance.
-    - resp - the delexicalized reference system response.
-    - bspn - the belief state.
-    - aspn - the system action.
-    - db - The database query result.
-  - prompt: the prompt used to instruct GPT-3 to simulate the dialogue.
-  - goal: the user goal of this dialogue. 
-> We have placed the simulated dialogues under 1% settings in `./pptod/E2E_TOD/simulation_result23/small/few_shot_0.01` directory.
+  - **dial_id**: the id of the dialogue
+  - **turns**: a list of turns in this dialogue, where each turn is represented as a dictionary that contains the following fields:
+    - **dial_id** - the unique ID for the dialogue session instance.
+    - **turn_num** - this argument indicates the turn position in the dialogue session.
+    - **user** - the user's utterance.
+    - **resp** - the delexicalized reference system response.
+    - **bspn** - the belief state.
+    - **aspn** - the system action.
+    - **db** - The database query result.
+  - **prompt**: the prompt used to instruct GPT-3 to simulate the dialogue.
+  - **goal**: the user goal of this dialogue. 
+> We provide the simulated dialogues in `./pptod/E2E_TOD/simulation_result23/small/` directory.
 
 
 ### Turn-level simulation
