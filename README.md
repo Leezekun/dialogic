@@ -6,7 +6,7 @@ This is the pytorch implementation of **Controllable Dialogue Simulation with In
 
 ## Introduction
 Dialogic is a method that can generate and annotate task-oriented dialogues in a fully automatic manner, with in-context learning of large language models such as GPT-3.
-The only requirements are a small seed dataset used to train the verifier and select in-context examples for GPT-3 prompting. 
+The only requirements are a small seed dataset, which is used to select in-context examples for GPT-3 prompting and train the verifier (optional). 
 
 > We show a [demo](#demo) of how a dialogue is simulated above. You can type into your user goal or use the automatically generated one. The simulated dialogues are provided in the `./simulated_dialogues` directory. The description of data format can be found [here](#format-of-simulated-dialogues).
 
