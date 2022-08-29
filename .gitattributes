@@ -1,2 +1,3 @@
 pptod/E2E_TOD/ckpt23/small/few_shot_0.01/ filter=lfs diff=lfs merge=lfs -text
 pptod/E2E_TOD/ckpt23/small/few_shot_0.01/epoch_21_test_e2e_evaluation_inform_55.36_success_38.44_bleu_12.25_combine_score_59.14/ filter=lfs diff=lfs merge=lfs -text
+*.bin filter=lfs diff=lfs merge=lfs -text
