@@ -1,7 +1,7 @@
 # Dialogic: Controllable Dialogue Simulation with In-Context Learning
 This is the pytorch implementation of **Controllable Dialogue Simulation with In-Context Learning**.
 
-<p align="center"><img width="75%" src="imgs/demo.gif" /></p>
+<p align="center"><img width="100%" src="imgs/demo.gif" /></p>
 
 
 ## Introduction
@@ -253,11 +253,11 @@ chmod +x create_dataset.sh
 ```
 Use the following command for inference on test set:
 ```bash
-CUDA_VISIBLE_DEVICES=$GPU python generate_dialogue.py $CHECKPOINT $DECODING
+CUDA_VISIBLE_DEVICES=$GPU python generate_dialogue_aug.py $CHECKPOINT $DECODING
 ```
 Use the following command for evaluation:
 ```bash
-python evaluate_multiwoz.py $MODEL_OUTPUT
+python evaluate_multiwoz_aug.py $MODEL_OUTPUT $DATA_DIR
 ```
 
 ### MinTL

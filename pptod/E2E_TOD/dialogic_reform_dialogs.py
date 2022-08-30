@@ -36,7 +36,10 @@ if __name__ == '__main__':
     processed_dialogs = []
 
     for aug_dialog in aug_dialogs:
-        processed_dialog = copy.deepcopy(aug_dialog)
+        processed_dialog = {}
+        
+        processed_dialog["dial_id"] = aug_dialog["dial_id"]
+        processed_dialog["goal"] = aug_dialog["goal"]
 
         dialog_turns = aug_dialog['turns']
         processed_dialog_turns = []
