@@ -29,7 +29,7 @@ Dialogic is a method that can generate and annotate dialogues in a fully automat
     - [MinTL](#mintl)
 
 ## Preparation
-The code is placed in the `./code` directory. As we use PPTOD as the verifier in this repo, most important files are in the `./code/pptod` directory.
+The code is placed in the `./code` directory. As we use PPTOD as the verifier in this repo, most important files are in the `./code/pptod/E2E_TOD` directory.
 
 ### Environment setup
 Set up the environment for PPTOD and SimpleTOD. To set up the environment for MinTL, please refer to `./code/MinTL/README.md`.
