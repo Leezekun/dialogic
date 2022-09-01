@@ -409,13 +409,19 @@ if __name__ == '__main__':
                         if "):" in user_with_bs and len(user_with_bs.split("):")) == 2: 
                             user = user_with_bs.split("):")[1].strip()
                     
-                    if '[general]' in user_with_bs:
-                        # if gpt-3 tries to end the conversation before mentioning all the domain, add a start sequence
-                        not_mentioned_domain = ""
-                        for d in augment_domains:
+                    not_mentioned_domain = ""
+                    for d in augment_domains:
                             if d != '[general]' and d not in real_goal:
                                 not_mentioned_domain = d
                                 break
+                    
+                    # if '[general]' in user_with_bs:
+                    #     # if gpt-3 tries to end the conversation before mentioning all the domain, add a start sequence
+                    #     not_mentioned_domain = ""
+                    #     for d in augment_domains:
+                    #         if d != '[general]' and d not in real_goal:
+                    #             not_mentioned_domain = d
+                    #             break
 
                         # if there is domain that hasn't been mentioned, regenerate the user utterance requiring the not mentioned domain
                         # if not_mentioned_domain:
@@ -819,7 +825,7 @@ if __name__ == '__main__':
                         logger.info("\n" + system_prefix(gpt3_aspn_reform, system_based_on_da))
                     
                         # determine if it is the end
-                        if "[bye]" in gpt3_aspn_reform or "[welcome]" in gpt3_aspn_reform: 
+                        if ("[bye]" in gpt3_aspn_reform or "[welcome]" in gpt3_aspn_reform) and not not_mentioned_domain: 
                             end_of_dialog = True
 
                     # add response to context

@@ -4,9 +4,10 @@ This is the pytorch implementation of **Controllable Dialogue Simulation with In
 <p align="center"><img width="100%" src="./imgs/demo_both.gif" /></p>
 
 ## Introduction
-Dialogic is a method that can generate and annotate dialogues in a fully automatic manner, with in-context learning of large language models such as GPT-3. The only requirements are a small seed dataset, which is used to select in-context examples for GPT-3 prompting and train the verifier. 
+Starting from a small seed dataset, our method dialogic can generate good-quality annotated dialogues without human labor, parameter update, or engineering efforts, which is a much more time-saving and cost-efficient alternative to crowdsourcing in dataset creation. 
 
-> We show a [demo](#demo) of how a dialogue is simulated above. You can type into your user goal or use the automatically generated one. The simulated dialogues are provided in the `./simulated_dialogues` directory. The description of data format can be found [here](#format-of-simulated-dialogues).
+We show a [demo](#demo) of how a dialogue is simulated above. You can type into your user goal or use the automatically generated one. 
+We also provide simulated dialogues in the `./simulated_dialogues` directory. The description of data format can be found [here](#format-of-simulated-dialogues).
 
 <!-- Taking the [MultiWOZ](https://github.com/budzianowski/multiwoz) for example, given any user goal, such as booking a hotel (area is center, stay is 1, people is 2, bookday is Monday), and a restaurant (area is north, pricerange is moderate), DS-ICL can generate the corresponding dialogue along with annotations. An illustration of the generation process is presented above. -->
 
@@ -102,7 +103,7 @@ Some important options include:
   - `--augment_type`: how to generate the user goals, options: [combine substitution, random].
   - `--augment_time`: how many times of the seed dataset we are going to augment.
   - `--k_shot`: how many in-context examples used in the prompt.
-  - `--temperature`: the temperature when using the combine method.
+  - `--temperature`: the temperature when using the combine method. Lower temperature results in less random example selection.
 
 Then you can use the following script to start simulating the dialogues:
 ```bash
