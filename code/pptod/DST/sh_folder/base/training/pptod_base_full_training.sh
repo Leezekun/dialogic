@@ -1,0 +1,12 @@
+CUDA_VISIBLE_DEVICES=6 python ../../../learn.py\
+    --data_path_prefix ../../../../data/multiwoz/data/multi-woz-2.3-fine-processed/\
+    --model_name t5-base\
+    --delx_response True\
+    --pretrained_path ../../../../checkpoints/base/\
+    --ckpt_save_path ../../../ckpt23/base/pretrain_few_shot_0.01_aug/delx_e2e_x1_combine/\
+    --epoch_num 50\
+    --gradient_accumulation_steps 4\
+    --number_of_gpu 1\
+    --batch_size_per_gpu 16\
+    --train_data_ratio 0.01\
+    --aug_train_data_file multi-woz-fine-processed-train-simplified_ref_da_combine_2_shot_augment_dialog_turn_info_train_ratio_0.01_ref_bs_da_simulation_result.json
