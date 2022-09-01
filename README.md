@@ -158,6 +158,7 @@ Assistant: i am sorry we do not have any korean restaurants in the east area .
 ### Format of simulated dialogues
 The simulated dialogues are saved in json format. For each dialogue, we save the following information:
   - **dial_id**: the id of the simulated dialogue, which consists of the ids of the used example dialogues. For example, `comb_pmul3021_sng0548` is simulated with the examples of `pmul3021` and `sng0548`.
+  - **goal**: the user goal of this dialogue. 
   - **turns**: a list of turns in this dialogue, where each turn is represented as a dictionary that contains the following fields:
     - **dial_id** - the unique ID for the dialogue session instance.
     - **turn_num** - this argument indicates the turn position in the dialogue session.
@@ -167,7 +168,6 @@ The simulated dialogues are saved in json format. For each dialogue, we save the
     - **aspn** - the system action.
     - **db** - The database query result.
   - **prompt**: the prompt used to instruct GPT-3 to simulate the dialogue.
-  - **goal**: the user goal of this dialogue. 
 > We provide the simulated dialogues in `./simulated_dialogues/` and `./code/pptod/E2E_TOD/simulation_result23/small/` directory.
 
 
