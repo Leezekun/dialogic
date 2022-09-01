@@ -29,7 +29,7 @@ Dialogic is a method that can generate and annotate dialogues in a fully automat
     - [MinTL](#mintl)
 
 ## Preparation
-The code is placed in the `./code` directory. As we use PPTOD as the verifier in this repo, most important files are in the `./code/pptod/E2E_TOD` directory.
+The code is placed in the `./code` directory. As we use PPTOD as the verifier in this repo, most important files `dialogic_*.py` are in the `./code/pptod/E2E_TOD` directory.
 
 ### Environment setup
 Set up the environment for PPTOD and SimpleTOD. To set up the environment for MinTL, please refer to `./code/MinTL/README.md`.
@@ -157,7 +157,7 @@ Assistant: i am sorry we do not have any korean restaurants in the east area .
 
 ### Format of simulated dialogues
 The simulated dialogues are saved in json format. For each dialogue, we save the following information:
-  - **dial_id**: the id of the dialogue
+  - **dial_id**: the id of the simulated dialogue, which consists of the ids of the used example dialogues. For example, `comb_pmul3021_sng0548` is simulated with the examples of `pmul3021` and `sng0548`.
   - **turns**: a list of turns in this dialogue, where each turn is represented as a dictionary that contains the following fields:
     - **dial_id** - the unique ID for the dialogue session instance.
     - **turn_num** - this argument indicates the turn position in the dialogue session.
