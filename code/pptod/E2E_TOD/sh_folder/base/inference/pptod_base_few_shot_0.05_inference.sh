@@ -3,9 +3,9 @@ CUDA_VISIBLE_DEVICES=2,3 python ../../../inference_pptod.py\
     --data_version 2.3\
     --model_name t5-base\
     --use_db_as_input True\
-    --pretrained_path ../../../ckpt23/base/full_training/\
-    --output_save_path ../../../inference_result23/base/full_training/\
+    --pretrained_path ../../../ckpt23/base/few_shot_0.05/\
+    --output_save_path ../../../inference_result23/base/few_shot_0.05/\
     --number_of_gpu 2\
     --batch_size_per_gpu 128\
-    --train_data_ratio 1.0\
+    --train_data_ratio 0.05\
     --eva_mode train
