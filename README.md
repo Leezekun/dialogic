@@ -44,11 +44,20 @@ We use [MultiWOZ_2.3](https://github.com/lexmen318/MultiWOZ-coref) dataset by de
 You can use the following script to prepare the data.
 ```bash
 cd ./code/pptod/data/multiwoz
-chmod +x ./data_preparation23.sh # MultiWOZ_2.3 dataset
-# chmod +x ./data_preparation.sh # MultiWOZ_2.0 dataset
-# chmod +x ./data_preparation21.sh # MultiWOZ_2.1 dataset
-# chmod +x ./data_preparation24.sh # MultiWOZ_2.4 dataset
+# MultiWOZ_2.3 dataset
+chmod +x ./data_preparation23.sh 
+./data_preparation23.sh 
+# MultiWOZ_2.0 dataset
+# chmod +x ./data_preparation.sh 
+# ./data_preparation.sh 
+# MultiWOZ_2.1 dataset
+# chmod +x ./data_preparation21.sh 
+# ./data_preparation21.sh 
+# MultiWOZ_2.4 dataset
+# chmod +x ./data_preparation24.sh 
+# ./data_preparation24.sh 
 ```
+
 ### Verifier preparation
 We use [PPTOD](https://github.com/awslabs/pptod) as the verifier in this codebase. To use it, you should download the initial checkpoint you want and unzip it in the `./code/pptod/checkpoints` directory. We use PPTOD-small by default.
 ```bash
