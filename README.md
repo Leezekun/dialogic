@@ -196,7 +196,7 @@ python dialogic_aug_dst.py\
 You can type into your user goal or use the automatically generated one to see how the dialogue is generated.
 ```bash
 cd ./code/pptod/E2E_TOD/sh_folder/small/demo
-chmod +x ./pptod_small_few_shot_0.01_simulation.sh
+chmod +x ./pptod_small_few_shot_0.01_demo.sh
 ./pptod_small_few_shot_0.01_demo.sh
 ```
 An illustration of the demo can be seen [here](#dialogic-controllable-dialogue-simulation-with-in-context-learning).
