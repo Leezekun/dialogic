@@ -374,6 +374,7 @@ if __name__ == '__main__':
 
                 user = ""
                 context = ""
+                last_da = ""
                 history = [] # [(user, response)]
                 domain_queue = []
 
@@ -392,9 +393,13 @@ if __name__ == '__main__':
                     repeat_time = 0
                     while not user and repeat_time < args.max_repeat_time:
                         repeat_time += 1
+                        if "[offerbook]" in last_da: # ensure booking
+                            _user_prefix = user_prefix(bs_reform="[general]", user="yes, ")
+                        else:
+                            _user_prefix = user_prefix()
                         user_with_bs = openai.Completion.create(
                                     engine=args.gpt3_version,
-                                    prompt=prompt + "\n" + user_prefix(),
+                                    prompt=prompt + "\n" + _user_prefix,
                                     temperature=0.7,
                                     max_tokens=64,
                                     n=1,
@@ -403,7 +408,7 @@ if __name__ == '__main__':
                                     presence_penalty=0,
                                     stop=["Assistant"]
                                     )["choices"][0]["text"].lower().replace("\n", "").replace("you:", "").replace("*", "").strip()
-                        user_with_bs = user_prefix() + user_with_bs # You require([domain] slot_name is slot_value): user utterance
+                        user_with_bs = _user_prefix + user_with_bs # You require([domain] slot_name is slot_value): user utterance
 
                         # extract user's utterance
                         if "):" in user_with_bs and len(user_with_bs.split("):")) == 2: 
@@ -778,7 +783,7 @@ if __name__ == '__main__':
                             if debug: print(Fore.LIGHTMAGENTA_EX + f"Corrected GPT-3 generation of System: {system_prefix(one_da_text, system_based_on_da)}" + Style.RESET_ALL)
 
                             # determine if it is the end
-                            if "[bye]" in one_da_text or "[welcome]" in one_da_text: 
+                            if ("[bye]" in gpt3_aspn_reform or "[welcome]" in gpt3_aspn_reform) and not not_mentioned_domain: 
                                 end_of_dialog = True
                     
                     if not one_da_text:

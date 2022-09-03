@@ -375,7 +375,7 @@ def construct_augment_dialog(ref_dialogs_with_turn_info, base_dialogs_with_turn_
                         """
                         new_goal_domains = another_goal_domains + orig_goal_domains
                         new_goal_domains = list(set(new_goal_domains))
-                        domain_slot_nums = random.choices([[1, 4, 6], [2, 3, 5], [3, 2, 4]], weights=[0.3, 0.6, 0.1], k=1)[0]
+                        domain_slot_nums = random.choices([[1, 4, 6], [2, 3, 5], [3, 2, 4]], weights=[0.1, 0.6, 0.3], k=1)[0]
                         domain_num, min_domain_slot_num, max_domain_slot_num = domain_slot_nums[0], domain_slot_nums[1], domain_slot_nums[2] 
                         preserved_domain_num = min(domain_num, len(new_goal_domains)) # keep at most 2-3 domains
                         # preserved_domain_num = min(3, len(new_goal_domains)) # keep at most 3 domains

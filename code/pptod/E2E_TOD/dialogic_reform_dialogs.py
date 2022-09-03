@@ -12,8 +12,8 @@ import os
 def parse_config():
     parser = argparse.ArgumentParser()
     # parser.add_argument('--raw_data_path', type=str, default="../data/multiwoz/data/multi-woz-2.3-dialogic-processed/2_shot_augment_x2_dst_turn_info_train_ratio_0.01.json", help='the path that stores the error test cases in dst.')
-    parser.add_argument('--raw_data_path', type=str, default="./simulation_result23/small/few_shot_0.1/combine0.2_2_shot_augment_dialog_turn_info_train_ratio_0.1_simulation_result.json", help='the path that stores the error test cases in dst.')
-    parser.add_argument('--save_training_data_path', type=str, default="../../../simulated_dialogues/few_shot_0.1/", help='the path that stores the dialog demos.')
+    parser.add_argument('--raw_data_path', type=str, default="./simulation_result23/small/few_shot_0.01/combine0.2_2_shot_augment_dialog_turn_info_train_ratio_0.01_simulation_result.json", help='the path that stores the error test cases in dst.')
+    parser.add_argument('--save_training_data_path', type=str, default="../../../simulated_dialogues/few_shot_0.01/", help='the path that stores the dialog demos.')
 
     return parser.parse_args()
 
@@ -38,7 +38,11 @@ if __name__ == '__main__':
     for aug_dialog in aug_dialogs:
         processed_dialog = {}
         processed_dialog["dial_id"] = aug_dialog["dial_id"]
-        processed_dialog["goal"] = aug_dialog["goal"]
+        processed_dialog["goal"] = {}
+        for k, v in aug_dialog["goal"].items():
+            if k == "[general]" or not v:
+                continue
+            processed_dialog["goal"][k] = v
 
         dialog_turns = aug_dialog['turns']
         processed_dialog_turns = []
@@ -57,8 +61,6 @@ if __name__ == '__main__':
         # processed_dialog['prompt'] = aug_dialog['prompt']
 
         processed_dialogs.append(processed_dialog)
-
-    random.shuffle(processed_dialogs)
 
     print(f"{len(processed_dialogs)} dialogs in total. Finished transferring augmented dialogs in training data format......")
 
