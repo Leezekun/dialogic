@@ -21,8 +21,8 @@ We also provide simulated dialogues in the `./simulated_dialogues` directory. Th
     - [Verifier preparation](#verifier-preparation)
   - [Simulation](#simulation)
     - [Dialogue simulation](#dialogue-simulation)
-    - [Format of simulated dialogues](#format-of-simulated-dialogues)
     - [Demo](#demo)
+    - [Format of simulated dialogues](#format-of-simulated-dialogues)
     - [Turn-level simulation](#turn-level-simulation)
   - [Training on simulated dialogues](#training-on-simulated-dialogues)
     - [PPTOD](#pptod)
@@ -97,7 +97,7 @@ python dialogic_pre_process.py\
  --train_data_ratio 0.01
 ```
 
-Generate the user goals, select in-context examples and construct the prompts.
+Then we generate the user goals, select in-context examples and construct the prompts.
 ```bash
 cd ./code/pptod/E2E_TOD/
 python dialogic_aug_e2e.py\
@@ -114,7 +114,7 @@ Some important options include:
   - `--k_shot`: how many in-context examples used in the prompt.
   - `--temperature`: the temperature when using the combine method. Lower temperature results in less random example selection.
 
-Then you can use the following script to start simulating the dialogues:
+Finally, you can use the following script to start simulating the dialogues:
 ```bash
 cd ./code/pptod/E2E_TOD/sh_folder/small/simulation/
 chmod +x ./pptod_small_few_shot_0.01_simulation.sh
@@ -135,35 +135,43 @@ Some important options include:
   
 You will see the dialogue simulation process as:
 ```console
-Original GPT-3 generation of User: You require([restaurant] area is east): i am looking for a restaurant in the east area
-Verifier predicted belief state: [restaurant] area east
-Corrected belief state: [restaurant] area east
-Corrected GPT-3 generation of User: You require([restaurant] area is east): i am looking for a restaurant in the east area
-DB search result: [db_3]
-Verifier generated Action: [restaurant] [inform] choice [request] food
-Verifier generated Response: there are [value_choice] options in the [value_area] ranging from [value_price] to [value_price] . do you have a price range you would prefer ?
-Corrected GPT-3 generation of System: Assistant([restaurant] [inform] choice [request] food): there are [value_choice] restaurants in the east area , what type of food are you looking for ?
+--------------------------------------------- Generation process of turn 0 ---------------------------------------------
+GPT-3 generated user turn   >> You require([hotel] pricerange is cheap , day is tuesday , people is 5): hi there , i ' m looking for a hotel that is cheap and can accommodate 5 people on tuesday .
+Verifier generated bs       >> [hotel] pricerange cheap and accommodate 5 day tuesday
+Corrected bs                >> [hotel] day tuesday pricerange cheap people 5
+Corrected user turn         >> You require([hotel] day is tuesday , pricerange is cheap , people is 5): hi there , i ' m looking for a hotel that is cheap and can accommodate 5 people on tuesday .
+DB query result             >> [db_3]
+Verifier generated da       >> [hotel] [inform] choice [request] area
+Corrected system turn       >> Assistant([hotel] [inform] choice [request] area): i have [value_choice] options that are in the [value_area] .
+------------------------------------------------ Conversation of turn 0 ------------------------------------------------
+User                        >> hi there , i ' m looking for a hotel that is cheap and can accommodate 5 people on tuesday .
+System                      >> i have [value_choice] options that are in the [value_area] .
+------------------------------------------------------------------------------------------------------------------------
 
---------------------------------- turn 0 ---------------------------------
-User: i am looking for a restaurant in the east area
-Assistant: there are [value_choice] restaurants in the east area , what type of food are you looking for ?
---------------------------------------------------------------------------
-
-Original GPT-3 generation of User: You require([restaurant] food is korean): korean food please
-Verifier predicted belief state: [restaurant] area east food korean
-Corrected belief state: [restaurant] area east food korean
-Corrected GPT-3 generation of User: You require([restaurant] food is korean): korean food please
-DB search result: [db_0]
-Verifier generated Action: [restaurant] [nooffer] food area
-Verifier generated Response: i have [value_choice] options for you . do you have a price range you are looking for ?
-Corrected GPT-3 generation of System: Assistant([restaurant] [nooffer] food area): i am sorry we do not have any korean restaurants in the east area .
-
---------------------------------- turn 1 ---------------------------------
-User: korean food please
-Assistant: i am sorry we do not have any korean restaurants in the east area .
---------------------------------------------------------------------------
+--------------------------------------------- Generation process of turn 1 ---------------------------------------------
+GPT-3 generated user turn   >> You require([hotel] area is east): perfect , can you give me more information about the hotels in the east ?
+Verifier generated bs       >> [hotel] pricerange cheap and accommodate 5 day tuesday
+Corrected bs                >> [hotel] day tuesday pricerange cheap people 5 area east
+Corrected user turn         >> You require([hotel] area is east): perfect , can you give me more information about the hotels in the east ?
+DB query result             >> [db_2]
+Verifier generated da       >> [hotel] [inform] area name internet parking
+Corrected system turn       >> Assistant([hotel] [inform] area name internet parking): there is the [value_name] , which has free wifi and parking .
+------------------------------------------------ Conversation of turn 1 ------------------------------------------------
+User                        >> perfect , can you give me more information about the hotels in the east ?
+System                      >> there is the [value_name] , which has free wifi and parking .
+------------------------------------------------------------------------------------------------------------------------
 ......
 ```
+
+### Demo
+We also provide a demo to demonstrate how to simulate a dialogue turn by turn given a user goal. You can type into any user goal or use an automatically generated one to see how the corresponding dialogue is generated.
+```bash
+cd ./code/pptod/E2E_TOD/sh_folder/small/demo
+chmod +x ./pptod_small_few_shot_0.01_demo.sh
+./pptod_small_few_shot_0.01_demo.sh
+```
+An illustration of the demo example can be seen [here](#dialogic-controllable-dialogue-simulation-with-in-context-learning).
+
 
 ### Format of simulated dialogues
 The simulated dialogues are saved in json format. For each dialogue, we save the following information:
@@ -181,14 +189,6 @@ The simulated dialogues are saved in json format. For each dialogue, we save the
 
 > We provide the simulated dialogues in `./simulated_dialogues/` (w/o prompt for simplicity) and `./code/pptod/E2E_TOD/simulation_result23/small/` (w/ prompt) directory.
 
-### Demo
-We also provide a demo to demonstrate how a dialogue is simulated. You can type into your user goal or use the automatically generated one to see how the dialogue is generated.
-```bash
-cd ./code/pptod/E2E_TOD/sh_folder/small/demo
-chmod +x ./pptod_small_few_shot_0.01_demo.sh
-./pptod_small_few_shot_0.01_demo.sh
-```
-An illustration of the demo example can be seen [here](#dialogic-controllable-dialogue-simulation-with-in-context-learning).
 
 ### Turn-level simulation
 You can use the following script to start simulating dialogue turns for DST augmentation.

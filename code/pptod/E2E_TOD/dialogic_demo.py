@@ -349,10 +349,9 @@ if __name__ == '__main__':
         end_of_demo = False
         # record
         all_dialogs = []
-        total_turn_num, over_gen_turn_num, de_gen_turn_num = 0, 0, 0
+        total_turn_num = 0
 
         while not end_of_demo:
-
             if input_user_goal:
                 # select the in-context examples and construct the prompt on-the-fly
 
@@ -363,9 +362,9 @@ if __name__ == '__main__':
                         print("{:<12}>> ".format(domain) + ", ".join(slot))
                 
                 print()
-                print(Fore.GREEN + "An example of input format of user goal:" + Style.RESET_ALL)
+                print(Fore.GREEN + "An example of the input format of user goal:" + Style.RESET_ALL)
                 example_goal = {"[restaurant]": {"food": "american", "area": "center"}, "hotel": {"stars": "4"}}
-                print(paser_dict_to_bs(example_goal) + " >>")
+                print(paser_dict_to_bs(example_goal) + "can be parsed as")
                 print_paser_dict(example_goal)
 
                 has_valid_goal = False
@@ -506,7 +505,7 @@ if __name__ == '__main__':
                     #     else:
                     #         end_of_dialog = True
                         
-                    if debug: print(Fore.LIGHTYELLOW_EX + "{:<26}>> ".format("GPT-3 generated user turn") + Style.RESET_ALL + f"{user_with_bs}" )
+                    if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("GPT-3 generated user turn") + Style.RESET_ALL + f"{user_with_bs}" )
 
                     # extract gpt3_bs_reform and verifier_bs_reform
                     if "require(" in user_with_bs:
@@ -535,7 +534,7 @@ if __name__ == '__main__':
                         one_bs_text = batch_generated_bs[0]
                         gen_goal = paser_bs_to_dict(one_bs_text)
 
-                        if debug: print(Fore.LIGHTYELLOW_EX + "{:<26}>> ".format("Verifier generated bs") + Style.RESET_ALL + f"{one_bs_text}")
+                        if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("Verifier generated bs") + Style.RESET_ALL + f"{one_bs_text}")
                         # print(Fore.RED + f"Predicted belief text: {gen_goal}" + Style.RESET_ALL)
                         # record turn info
                         turn_info["bspn_verifier"] = one_bs_text
@@ -734,14 +733,6 @@ if __name__ == '__main__':
                     """
                     gpt3_turn_goal_list = paser_dict_to_list(gpt3_turn_goal)
                     turn_goal_list = paser_dict_to_list(turn_goal)
-                    for i in turn_goal_list:
-                        if i not in gpt3_turn_goal_list:
-                            de_gen_turn_num += 1
-                            break
-                    for i in gpt3_turn_goal_list:
-                        if i not in turn_goal_list:
-                            over_gen_turn_num += 1
-                            break
 
                     """
                     reconstruct the generated user_with_bs
@@ -752,7 +743,7 @@ if __name__ == '__main__':
                     reform_bsdx_text = paser_dict_to_bsdx_reform(reverse_dict(real_goal))
 
                     # correct belief state                    
-                    if debug: print(Fore.LIGHTYELLOW_EX + "{:<26}>> ".format("Corrected bs") + Style.RESET_ALL + f"{bs_text}")
+                    if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("Corrected bs") + Style.RESET_ALL + f"{bs_text}")
                     # correct belief state
                     one_bs_text = bs_text
                     # record turn info
@@ -776,7 +767,7 @@ if __name__ == '__main__':
                     """ 
                     # update prompt
                     user_text = user_prefix(turn_bs_text, user) # You require(turn_bs_text): user
-                    if debug: print(Fore.LIGHTYELLOW_EX + "{:<26}>> ".format("Corrected user turn") + Style.RESET_ALL +f"{user_text}")
+                    if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("Corrected user turn") + Style.RESET_ALL +f"{user_text}")
                     prompt += "\n" + user_text
                     logger.info("\n" + user_text)
                     
@@ -791,7 +782,7 @@ if __name__ == '__main__':
                     # whether we need to query the db base
                     if input_contain_db:
                         # record turn info
-                        if debug: print(Fore.LIGHTYELLOW_EX + "{:<26}>> ".format("DB query result") + Style.RESET_ALL + f"{one_queried_db_result}")
+                        if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("DB query result") + Style.RESET_ALL + f"{one_queried_db_result}")
                         one_db_text = '<sos_db> ' + one_queried_db_result + ' <eos_db>'
                         one_db_token_id_input = tokenizer.convert_tokens_to_ids(tokenizer.tokenize(one_db_text))
                     else:
@@ -809,7 +800,7 @@ if __name__ == '__main__':
                         one_da_text = batch_generated_da[0]
 
                         one_da_token_id_output = tokenizer.convert_tokens_to_ids(tokenizer.tokenize(one_da_text))
-                        if debug: print(Fore.LIGHTYELLOW_EX + "{:<26}>> ".format("Verifier generated da") + Style.RESET_ALL + f"{one_da_text}")
+                        if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("Verifier generated da") + Style.RESET_ALL + f"{one_da_text}")
 
                         if one_da_text:
 
@@ -822,7 +813,7 @@ if __name__ == '__main__':
                             # generate nlg
                             batch_generated_nlg = e2e_batch_interactive_generate(model, 'nlg', batch_nlg_token_id_input, data)
                             one_nlg_text = batch_generated_nlg[0]
-                            # if debug: print(Fore.LIGHTYELLOW_EX + "{:<26}>> ".format("Verifier generated Response") + Style.RESET_ALL + f"{one_nlg_text}")
+                            # if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("Verifier generated Response") + Style.RESET_ALL + f"{one_nlg_text}")
 
                             # record turn info
                             turn_info["aspn"] = one_da_text
@@ -852,7 +843,7 @@ if __name__ == '__main__':
                             turn_info["resp_verifier"] = one_nlg_text
                             prompt += "\n" + system_prefix(one_da_text, system_based_on_da)
                             logger.info("\n" + system_prefix(one_da_text, system_based_on_da))
-                            if debug: print(Fore.LIGHTYELLOW_EX + "{:<26}>> ".format("Corrected system turn") + Style.RESET_ALL + f"{system_prefix(one_da_text, system_based_on_da)}")
+                            if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("Corrected system turn") + Style.RESET_ALL + f"{system_prefix(one_da_text, system_based_on_da)}")
 
                             # determine if it is the end
                             if ("[bye]" in one_da_text or "[welcome]" in one_da_text) and not not_mentioned_domain: 
@@ -881,7 +872,7 @@ if __name__ == '__main__':
                             if "):" in system_with_da and len(system_with_da.split("):")) == 2: 
                                 system_based_on_da  = system_with_da.split("):")[1].strip()
                         
-                        if debug: print(Fore.LIGHTYELLOW_EX + "{:<26}>> ".format("GPT-3 generated system turn") + Style.RESET_ALL +f"{system_with_da}")
+                        if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("GPT-3 generated system turn") + Style.RESET_ALL +f"{system_with_da}")
 
                         # extract gpt3_da_reform 
                         if "Assistant(" in system_with_da:
@@ -917,8 +908,8 @@ if __name__ == '__main__':
                     print()
                     print(f" Conversation of turn {turn_id} ".center(window_length, "-"))
                     print()
-                    print(Fore.GREEN + "{:<26}>> ".format("User") + Style.RESET_ALL + f"{turn_info['user']}" )
-                    print(Fore.GREEN + "{:<26}>> ".format("System") + Style.RESET_ALL + f"{turn_info['resp']}" )
+                    print(Fore.GREEN + "{:<28}>> ".format("User") + Style.RESET_ALL + f"{turn_info['user']}" )
+                    print(Fore.GREEN + "{:<28}>> ".format("System") + Style.RESET_ALL + f"{turn_info['resp']}" )
                     print()
                     print("-"*window_length)
                     print()
@@ -949,15 +940,16 @@ if __name__ == '__main__':
                 # only demonstrate one dialogue once
                 break
             
-            print()
-            _ = input(Fore.RED + f"Press ENTER to continue simulating next dialog, or q to quit:" + Style.RESET_ALL)
-            if _ in ["exit", "q", "quit", "stop"]:
-                end_of_demo = True
-                break
-            print()
+            if not end_of_demo:
+                print()
+                _ = input(Fore.RED + f"Press ENTER to continue simulating next dialog, or q to quit:" + Style.RESET_ALL)
+                if _ in ["exit", "q", "quit", "stop"]:
+                    end_of_demo = True
+                    break
+                print()
 
     # save dialogs
     if args.save:
         save_dialogs(args, all_dialogs, one_dev_str)
     
-    print(f"Simulate {len(all_dialogs)} dialogs, {total_turn_num} turns, over-generation turns {over_gen_turn_num}, de-generation turns {de_gen_turn_num}.")        
+    print(f"Simulate {len(all_dialogs)} dialogs, {total_turn_num} turns in total.")        

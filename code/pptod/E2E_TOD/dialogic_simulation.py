@@ -25,6 +25,8 @@ from colorama import Fore, Back, Style
 from dialogic_utils import system_prefix, user_prefix
 from dialogic_utils import *
 
+window_length = 120
+
 def get_checkpoint_name(prefix):
     file_names = os.listdir(prefix)
     selected_name = ""
@@ -298,7 +300,6 @@ if __name__ == '__main__':
 
         """
         interact with system (verifier) using GPT-3
-
         """
         # openai.api_key = os.getenv("OPENAI_API_KEY")
         openai.api_key = OPENAI_API_KEY
@@ -379,8 +380,12 @@ if __name__ == '__main__':
                 domain_queue = []
 
                 while turn_id < args.max_turn_num:
-                    total_turn_num += 1
 
+                    print()
+                    print(f" Generation process of turn {turn_id} ".center(window_length, "-"))
+                    print()
+
+                    total_turn_num += 1
                     error_turn = False
                     end_of_dialog = False
                     turn_info = {}
@@ -434,7 +439,7 @@ if __name__ == '__main__':
                         # else:
                         #     end_of_dialog = True
                         
-                    if debug: print(Fore.MAGENTA + f"Original GPT-3 generation of User: {user_with_bs}" + Style.RESET_ALL)
+                    if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("GPT-3 generated user turn") + Style.RESET_ALL + f"{user_with_bs}" )
 
                     # extract gpt3_bs_reform and verifier_bs_reform
                     if "require(" in user_with_bs:
@@ -463,10 +468,10 @@ if __name__ == '__main__':
                         one_bs_text = batch_generated_bs[0]
                         gen_goal = paser_bs_to_dict(one_bs_text)
 
-                        if debug: print(Fore.BLUE + f"Verifier predicted belief state: {one_bs_text}" + Style.RESET_ALL)
+                        if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("Verifier generated bs") + Style.RESET_ALL + f"{one_bs_text}")
                         # print(Fore.BLUE + f"Predicted belief text: {gen_goal}" + Style.RESET_ALL)
                         # record turn info
-                        turn_info["bspn_verifier"] = one_bs_text
+                        # turn_info["bspn_verifier"] = one_bs_text
 
                     """
                     determine turn_domain, priority: [general] > gpt3 > debugged tod
@@ -680,7 +685,7 @@ if __name__ == '__main__':
                     reform_bsdx_text = paser_dict_to_bsdx_reform(reverse_dict(real_goal))
 
                     # correct belief state                    
-                    if debug: print(Fore.RED + f"Corrected belief state: {bs_text}" + Style.RESET_ALL)
+                    if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("Corrected bs") + Style.RESET_ALL + f"{bs_text}")
                     # correct belief state
                     one_bs_text = bs_text
                     # record turn info
@@ -704,7 +709,7 @@ if __name__ == '__main__':
                     """ 
                     # update prompt
                     user_text = user_prefix(turn_bs_text, user) # You require(turn_bs_text): user
-                    if debug: print(Fore.MAGENTA + f"Corrected GPT-3 generation of User: {user_text}" + Style.RESET_ALL)
+                    if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("Corrected user turn") + Style.RESET_ALL +f"{user_text}")
                     prompt += "\n" + user_text
                     logger.info("\n" + user_text)
                     
@@ -719,7 +724,7 @@ if __name__ == '__main__':
                     # whether we need to query the db base
                     if input_contain_db:
                         # record turn info
-                        if debug: print(Fore.LIGHTGREEN_EX + f"DB search result: {one_queried_db_result}" + Style.RESET_ALL)
+                        if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("DB query result") + Style.RESET_ALL + f"{one_queried_db_result}")
                         one_db_text = '<sos_db> ' + one_queried_db_result + ' <eos_db>'
                         one_db_token_id_input = tokenizer.convert_tokens_to_ids(tokenizer.tokenize(one_db_text))
                     else:
@@ -737,7 +742,7 @@ if __name__ == '__main__':
                         one_da_text = batch_generated_da[0]
 
                         one_da_token_id_output = tokenizer.convert_tokens_to_ids(tokenizer.tokenize(one_da_text))
-                        if debug: print(Fore.YELLOW + f"Verifier generated Action: {one_da_text}" + Style.RESET_ALL)
+                        if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("Verifier generated da") + Style.RESET_ALL + f"{one_da_text}")
 
                         if one_da_text:
 
@@ -750,11 +755,11 @@ if __name__ == '__main__':
                             # generate nlg
                             batch_generated_nlg = e2e_batch_interactive_generate(model, 'nlg', batch_nlg_token_id_input, data)
                             one_nlg_text = batch_generated_nlg[0]
-                            if debug: print(Fore.CYAN + f"Verifier generated Response: {one_nlg_text}" + Style.RESET_ALL)
+                            # if debug: print(Fore.CYAN + f"Verifier generated Response: {one_nlg_text}" + Style.RESET_ALL)
 
                             # record turn info
                             turn_info["aspn"] = one_da_text
-                            turn_info["aspn_verifier"] = one_da_text
+                            # turn_info["aspn_verifier"] = one_da_text
                             turn_info["aspn_reform"] = one_da_text
 
                             # using gpt-3 generation
@@ -777,13 +782,13 @@ if __name__ == '__main__':
 
                             # record turn info
                             turn_info["resp"] = system_based_on_da
-                            turn_info["resp_verifier"] = one_nlg_text
+                            # turn_info["resp_verifier"] = one_nlg_text
                             prompt += "\n" + system_prefix(one_da_text, system_based_on_da)
                             logger.info("\n" + system_prefix(one_da_text, system_based_on_da))
-                            if debug: print(Fore.LIGHTMAGENTA_EX + f"Corrected GPT-3 generation of System: {system_prefix(one_da_text, system_based_on_da)}" + Style.RESET_ALL)
+                            if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("Corrected system turn") + Style.RESET_ALL + f"{system_prefix(one_da_text, system_based_on_da)}")
 
                             # determine if it is the end
-                            if ("[bye]" in gpt3_aspn_reform or "[welcome]" in gpt3_aspn_reform) and not not_mentioned_domain: 
+                            if ("[bye]" in one_da_text or "[welcome]" in one_da_text) and not not_mentioned_domain: 
                                 end_of_dialog = True
                     
                     if not one_da_text:
@@ -814,7 +819,7 @@ if __name__ == '__main__':
                         # extract gpt3_da_reform 
                         if "Assistant(" in system_with_da:
                             gpt3_aspn_reform = system_with_da.split("Assistant(")[1].split("):")[0].strip()
-                            if debug: print(Fore.GREEN + f"GPT-3 predicted dialog action: {gpt3_aspn_reform}" + Style.RESET_ALL)
+                            if debug: print(Fore.LIGHTYELLOW_EX + f"GPT-3 generated da: {gpt3_aspn_reform}" + Style.RESET_ALL)
                         else:
                             gpt3_aspn_reform = ""
 
@@ -841,12 +846,14 @@ if __name__ == '__main__':
                     history.append((turn_info["user"], turn_info["resp"]))
 
                     # Print generated response
-                    print(Fore.WHITE)
-                    print(f"--------------------------------- turn {turn_id} ---------------------------------")
-                    print(f"User: {turn_info['user']}")
-                    print(f"Assistant: {turn_info['resp']}")
-                    print("--------------------------------------------------------------------------")
-                    print(Style.RESET_ALL)
+                    print()
+                    print(f" Conversation of turn {turn_id} ".center(window_length, "-"))
+                    print()
+                    print(Fore.GREEN + "{:<28}>> ".format("User") + Style.RESET_ALL + f"{turn_info['user']}" )
+                    print(Fore.GREEN + "{:<28}>> ".format("System") + Style.RESET_ALL + f"{turn_info['resp']}" )
+                    print()
+                    print("-"*window_length)
+                    print()
 
                     # rearrange the orders and record this turn's info
                     dialog_turns.append(turn_info)
