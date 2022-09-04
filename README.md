@@ -178,6 +178,7 @@ The simulated dialogues are saved in json format. For each dialogue, we save the
     - **aspn** - the system action.
     - **db** - The database query result.
   - **prompt**: the prompt used to instruct GPT-3 to simulate the dialogue.
+
 > We provide the simulated dialogues in `./simulated_dialogues/` (w/o prompt for simplicity) and `./code/pptod/E2E_TOD/simulation_result23/small/` (w/ prompt) directory.
 
 
