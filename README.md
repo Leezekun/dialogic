@@ -22,8 +22,8 @@ We also provide simulated dialogues in the `./simulated_dialogues` directory. Th
   - [Simulation](#simulation)
     - [Dialogue simulation](#dialogue-simulation)
     - [Format of simulated dialogues](#format-of-simulated-dialogues)
-    - [Turn-level simulation](#turn-level-simulation)
     - [Demo](#demo)
+    - [Turn-level simulation](#turn-level-simulation)
   - [Training on simulated dialogues](#training-on-simulated-dialogues)
     - [PPTOD](#pptod)
     - [SimpleTOD](#simpletod)
@@ -83,7 +83,7 @@ Some important options include:
   - `--train_data_ratio`: the ratio of training data we use, i.e., the few-shot setting (1% by default).
   - `--ckpt_save_path`: the path where the trained verifier is saved.
 <!-- The trained verifier is saved in `./pptod/E2E_TOD/ckpt23/small/few_shot_0.01/` directory. You can try other few-shot settings by changing `0.01` to any number in (0, 1]. -->
-> We provide the checkpoint of a verifier trained on 1% of the training data, which is placed at `./code/pptod/E2E_TOD/ckpt23/small/few_shot_0.01/`.
+> We provide the checkpoints of verifiers trained on 1%/5%/10% of the training data, which are placed at `./code/pptod/E2E_TOD/ckpt23/small/`.
 
 ## Simulation
 Put your OpenAI API key in `./code/pptod/E2E_TOD/dialogic_utils.py` to use GPT-3!
@@ -181,6 +181,14 @@ The simulated dialogues are saved in json format. For each dialogue, we save the
 
 > We provide the simulated dialogues in `./simulated_dialogues/` (w/o prompt for simplicity) and `./code/pptod/E2E_TOD/simulation_result23/small/` (w/ prompt) directory.
 
+### Demo
+We also provide a demo to demonstrate how a dialogue is simulated. You can type into your user goal or use the automatically generated one to see how the dialogue is generated.
+```bash
+cd ./code/pptod/E2E_TOD/sh_folder/small/demo
+chmod +x ./pptod_small_few_shot_0.01_demo.sh
+./pptod_small_few_shot_0.01_demo.sh
+```
+An illustration of the demo example can be seen [here](#dialogic-controllable-dialogue-simulation-with-in-context-learning).
 
 ### Turn-level simulation
 You can use the following script to start simulating dialogue turns for DST augmentation.
@@ -192,16 +200,6 @@ python dialogic_aug_dst.py\
   --k_shot 2\
   --temperature 0.2
 ```
-
-### Demo
-You can type into your user goal or use the automatically generated one to see how the dialogue is generated.
-```bash
-cd ./code/pptod/E2E_TOD/sh_folder/small/demo
-chmod +x ./pptod_small_few_shot_0.01_demo.sh
-./pptod_small_few_shot_0.01_demo.sh
-```
-An illustration of the demo can be seen [here](#dialogic-controllable-dialogue-simulation-with-in-context-learning).
-
 
 ## Training on simulated dialogues 
 Convert the format of simulated dialogues for E2E training.

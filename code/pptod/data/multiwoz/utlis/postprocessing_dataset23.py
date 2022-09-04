@@ -169,7 +169,7 @@ def process_data_list(data_list, tokenizer, special_token_list):
 if __name__ == '__main__':
     import json
     import os
-    os.mkdir(r'../data/multi-woz-2.3-fine-processed/')
+    os.makedirs(r'../data/multi-woz-2.3-fine-processed/', exist_ok=True)
 
     from config23 import Config
     data_prefix = r'../data/'
