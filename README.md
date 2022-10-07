@@ -18,7 +18,7 @@ We also provide simulated dialogues in the `./simulated_dialogues` directory. Th
   - [Preparation](#preparation)
     - [Environment setup](#environment-setup)
     - [Data preparation](#data-preparation)
-    - [Verifier preparation](#verifier-preparation)
+    - [Auxiliary model preparation](#auxiliary-model-preparation)
   - [Simulation](#simulation)
     - [Dialogue simulation](#dialogue-simulation)
     - [Demo](#demo)
@@ -30,7 +30,7 @@ We also provide simulated dialogues in the `./simulated_dialogues` directory. Th
     - [MinTL](#mintl)
 
 ## Preparation
-The code is placed in the `./code` directory. As we use PPTOD as the verifier in this repo, most important files `dialogic_*.py` are in the `./code/pptod/E2E_TOD` directory.
+The code is placed in the `./code` directory. As we use PPTOD as the auxiliary model for verification in this repo, most important files `dialogic_*.py` are in the `./code/pptod/E2E_TOD` directory.
 
 ### Environment setup
 Set up the environment for PPTOD and SimpleTOD. To set up the environment for MinTL, please refer to `./code/MinTL/README.md`.
@@ -58,8 +58,8 @@ chmod +x ./data_preparation23.sh
 # ./data_preparation24.sh 
 ```
 
-### Verifier preparation
-We use [PPTOD](https://github.com/awslabs/pptod) as the verifier in this codebase. To use it, you should download the initial checkpoint you want and unzip it in the `./code/pptod/checkpoints` directory. We use PPTOD-small by default.
+### Auxiliary model preparation
+We use [PPTOD](https://github.com/awslabs/pptod) as the auxiliary model for verification in this codebase. To use it, you should download the initial checkpoint you want and unzip it in the `./code/pptod/checkpoints` directory. We use PPTOD-small by default.
 ```bash
 cd ./code/pptod/checkpoints
 # Downloading Initial PPTOD-small Checkpoint:
@@ -73,7 +73,7 @@ chmod +x ./download_pptod_large.sh
 ./download_pptod_large.sh
 ```
 
-Then you can use the script to train the verifier on the small seed dataset (1% few-shot setting by default):
+Then you can use the script to train the auxiliary verification model on the small seed dataset (1% few-shot setting by default):
 ```bash
 cd ./code/pptod/E2E_TOD/sh_folder/small/training
 chmod +x pptod_small_training_few_shot_0.01.sh
@@ -81,9 +81,9 @@ chmod +x pptod_small_training_few_shot_0.01.sh
 ```
 Some important options include:
   - `--train_data_ratio`: the ratio of training data we use, i.e., the few-shot setting (1% by default).
-  - `--ckpt_save_path`: the path where the trained verifier is saved.
+  - `--ckpt_save_path`: the path where the trained auxiliary verification model is saved.
 <!-- The trained verifier is saved in `./pptod/E2E_TOD/ckpt23/small/few_shot_0.01/` directory. You can try other few-shot settings by changing `0.01` to any number in (0, 1]. -->
-> We provide the checkpoints of verifiers trained on 1%/5%/10% of the training data, which are placed at `./code/pptod/E2E_TOD/ckpt23/small/`.
+> We provide the checkpoints of auxiliary verification models trained on 1%/5%/10% of the training data, which are placed at `./code/pptod/E2E_TOD/ckpt23/small/`.
 
 ## Simulation
 Put your OpenAI API key in `./code/pptod/E2E_TOD/dialogic_utils.py` to use GPT-3!
@@ -122,14 +122,14 @@ chmod +x ./pptod_small_few_shot_0.01_simulation.sh
 ```
 Some important options include:
   - `--train_data_ratio`: the ratio of training data we use, the few-shot setting.
-  - `--pretrained_path`: the path of trained verifier.
+  - `--pretrained_path`: the path of trained auxiliary verification model.
   - `--output_save_path`: the path to store the simulated dialogues.
   - `--augment_dialog_path`: the path where the constructed prompts store. 
   - `--max_turn_num`: the maximum number of turns in each simulated dialog.
   - `--max_dialog_num`: the maximum number of dialogs simulated using gpt-3.
   - `--max_aug_num`: the size of simulated data w.r.t. the original seed data.
-  - `--verify_bs`: whether to use the verifier to correct the generated belief state annotations.
-  - `--verify_da`: whether to use the verifier to correct the generated dialog act annotations.
+  - `--verify_bs`: whether to use the auxiliary verification model to correct the generated belief state annotations.
+  - `--verify_da`: whether to use the auxiliary verification model to correct the generated dialog act annotations.
   - `--debug`: whether to print out the simulation process.
   - `--save`: whether to save the simulated dialogues.
   
