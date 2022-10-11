@@ -1,5 +1,5 @@
 # Dialogic: Controllable Dialogue Simulation with In-Context Learning
-This is the pytorch implementation of **Controllable Dialogue Simulation with In-Context Learning**, which got accepted by Findings of EMNLP2022.
+This is the official pytorch implementation of our paper titled [Controllable Dialogue Simulation with In-Context Learning](https://arxiv.org/abs/2210.04185), which got accepted to Findings of EMNLP 2022.
 
 <p align="center"><img width="100%" src="./imgs/demo_both.gif" /></p>
 
@@ -28,6 +28,8 @@ We also provide simulated dialogues in the `./simulated_dialogues` directory. Th
     - [PPTOD](#pptod)
     - [SimpleTOD](#simpletod)
     - [MinTL](#mintl)
+  - [Citations](#citations)
+  - [Acknowledgement](#acknowledgement)
 
 ## Preparation
 The code is placed in the `./code` directory. As we use PPTOD as the auxiliary model for verification in this repo, most important files `dialogic_*.py` are in the `./code/pptod/E2E_TOD` directory.
@@ -297,6 +299,20 @@ CUDA_VISIBLE_DEVICES=1 python train.py --mode train --context_window 2 --pretrai
 # DST training
 CUDA_VISIBLE_DEVICES=1 python DST.py --mode train --context_window 3 --cfg seed=557 batch_size=32 --generated_data_file dst_2.3_0.01_augx2
 ```
+
+## Citations
+If you found this repo useful, please consider citing our paper.
+```bibtex
+@article{li2022controllable,
+  title={Controllable Dialogue Simulation with In-Context Learning},
+  author={Li, Zekun and Chen, Wenhu and Li, Shiyang and Wang, Hong and Qian, Jing and Yan, Xifeng},
+  journal={arXiv preprint arXiv:2210.04185},
+  year={2022}
+}
+```
+
+## Acknowledgement
+This repo is partially based on [PPTOD](https://github.com/awslabs/pptod). We thank the authors sharing their code.
 
 
 
