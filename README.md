@@ -301,18 +301,19 @@ CUDA_VISIBLE_DEVICES=1 python DST.py --mode train --context_window 3 --cfg seed=
 ```
 
 ## Citations
-If you found this repo useful, please consider citing our paper.
+If you found this repo useful, please consider citing our paper:
 ```bibtex
-@article{li2022controllable,
+@article{Li2022ControllableDS,
   title={Controllable Dialogue Simulation with In-Context Learning},
-  author={Li, Zekun and Chen, Wenhu and Li, Shiyang and Wang, Hong and Qian, Jing and Yan, Xifeng},
-  journal={arXiv preprint arXiv:2210.04185},
-  year={2022}
+  author={Zekun Li and Wenhu Chen and SHIYANG LI and Hong Wang and Jingu Qian and Xi Yan},
+  journal={ArXiv},
+  year={2022},
+  volume={abs/2210.04185}
 }
 ```
 
 ## Acknowledgement
-This repo is partially based on [PPTOD](https://github.com/awslabs/pptod). We thank the authors sharing their code.
+We thank the authors [SimpleTOD](https://github.com/salesforce/simpletod), [MinTL](https://github.com/zlinao/MinTL), and [PPTOD](https://github.com/awslabs/pptod) for sharing their code.
 
 
 
