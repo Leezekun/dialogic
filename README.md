@@ -312,7 +312,7 @@ If you found this repo useful, please consider citing our paper:
 ```
 
 ## Acknowledgement
-We thank the authors [SimpleTOD](https://github.com/salesforce/simpletod), [MinTL](https://github.com/zlinao/MinTL), and [PPTOD](https://github.com/awslabs/pptod) for sharing their code.
+We thank the authors of [SimpleTOD](https://github.com/salesforce/simpletod), [MinTL](https://github.com/zlinao/MinTL), and [PPTOD](https://github.com/awslabs/pptod) for sharing their code.
 
 
 
