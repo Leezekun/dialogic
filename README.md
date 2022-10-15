@@ -303,12 +303,11 @@ CUDA_VISIBLE_DEVICES=1 python DST.py --mode train --context_window 3 --cfg seed=
 ## Citations
 If you found this repo useful, please consider citing our paper:
 ```bibtex
-@article{Li2022ControllableDS,
+@article{li2022controllable,
   title={Controllable Dialogue Simulation with In-Context Learning},
-  author={Zekun Li and Wenhu Chen and SHIYANG LI and Hong Wang and Jingu Qian and Xi Yan},
-  journal={ArXiv},
-  year={2022},
-  volume={abs/2210.04185}
+  author={Li, Zekun and Chen, Wenhu and Li, Shiyang and Wang, Hong and Qian, Jing and Yan, Xifeng},
+  journal={arXiv preprint arXiv:2210.04185},
+  year={2022}
 }
 ```
 
