@@ -18,7 +18,7 @@ We also provide simulated dialogues in the `./simulated_dialogues` directory. Th
   - [Preparation](#preparation)
     - [Environment setup](#environment-setup)
     - [Data preparation](#data-preparation)
-    - [Verification model preparation](#verification-model-preparation)
+    - [Auxiliary model preparation](#auxiliary-model-preparation)
   - [Simulation](#simulation)
     - [Dialogue simulation](#dialogue-simulation)
     - [Demo](#demo)
@@ -60,7 +60,7 @@ chmod +x ./data_preparation23.sh
 # ./data_preparation24.sh 
 ```
 
-### Verification model preparation
+### Auxiliary model preparation
 We use [PPTOD](https://github.com/awslabs/pptod) as the auxiliary model for verification in this codebase. To use it, you should download the initial checkpoint you want and unzip it in the `./code/pptod/checkpoints` directory. We use PPTOD-small by default.
 ```bash
 cd ./code/pptod/checkpoints
