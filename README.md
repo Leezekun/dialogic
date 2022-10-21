@@ -21,9 +21,9 @@ We also provide simulated dialogues in the `./simulated_dialogues` directory. Th
     - [Auxiliary model preparation](#auxiliary-model-preparation)
   - [Simulation](#simulation)
     - [Dialogue simulation](#dialogue-simulation)
-    - [Demo](#demo)
     - [Format of simulated dialogues](#format-of-simulated-dialogues)
     - [Turn-level simulation](#turn-level-simulation)
+  - [Demo](#demo)
   - [Training on simulated dialogues](#training-on-simulated-dialogues)
     - [PPTOD](#pptod)
     - [SimpleTOD](#simpletod)
@@ -165,16 +165,6 @@ System                      >> there is the [value_name] , which has free wifi a
 ......
 ```
 
-### Demo
-We also provide a demo to demonstrate how to simulate a dialogue turn by turn given a user goal. You can type into any user goal or use an automatically generated one to see how the corresponding dialogue is generated.
-```bash
-cd ./code/pptod/E2E_TOD/sh_folder/small/demo
-chmod +x ./pptod_small_few_shot_0.01_demo.sh
-./pptod_small_few_shot_0.01_demo.sh
-```
-An illustration of the demo example can be seen [here](#dialogic-controllable-dialogue-simulation-with-in-context-learning).
-
-
 ### Format of simulated dialogues
 The simulated dialogues are saved in json format. For each dialogue, we save the following information:
   - **dial_id**: the id of the simulated dialogue, which consists of the ids of the used example dialogues. For example, `comb_pmul3021_sng0548` is simulated with the examples of `pmul3021` and `sng0548`.
@@ -202,6 +192,16 @@ python dialogic_aug_dst.py\
   --k_shot 2\
   --temperature 0.2
 ```
+
+## Demo
+We also provide a demo to demonstrate how to simulate a dialogue turn by turn given a user goal. You can type into any user goal or use an automatically generated one to see how the corresponding dialogue is generated.
+```bash
+cd ./code/pptod/E2E_TOD/sh_folder/small/demo
+chmod +x ./pptod_small_few_shot_0.01_demo.sh
+./pptod_small_few_shot_0.01_demo.sh
+```
+An illustration of the demo example can be seen [here](#dialogic-controllable-dialogue-simulation-with-in-context-learning).
+
 
 ## Training on simulated dialogues 
 Convert the format of simulated dialogues for E2E training.

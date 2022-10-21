@@ -534,7 +534,7 @@ if __name__ == '__main__':
                         one_bs_text = batch_generated_bs[0]
                         gen_goal = paser_bs_to_dict(one_bs_text)
 
-                        if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("Verifier generated bs") + Style.RESET_ALL + f"{one_bs_text}")
+                        if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("Verifier generated belief state") + Style.RESET_ALL + f"{one_bs_text}")
                         # print(Fore.RED + f"Predicted belief text: {gen_goal}" + Style.RESET_ALL)
                         # record turn info
                         turn_info["bspn_verifier"] = one_bs_text
@@ -743,7 +743,7 @@ if __name__ == '__main__':
                     reform_bsdx_text = paser_dict_to_bsdx_reform(reverse_dict(real_goal))
 
                     # correct belief state                    
-                    if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("Corrected bs") + Style.RESET_ALL + f"{bs_text}")
+                    if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("Revised belief state") + Style.RESET_ALL + f"{bs_text}")
                     # correct belief state
                     one_bs_text = bs_text
                     # record turn info
@@ -767,7 +767,7 @@ if __name__ == '__main__':
                     """ 
                     # update prompt
                     user_text = user_prefix(turn_bs_text, user) # You require(turn_bs_text): user
-                    if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("Corrected user turn") + Style.RESET_ALL +f"{user_text}")
+                    if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("Revised user turn") + Style.RESET_ALL +f"{user_text}")
                     prompt += "\n" + user_text
                     logger.info("\n" + user_text)
                     
@@ -800,7 +800,7 @@ if __name__ == '__main__':
                         one_da_text = batch_generated_da[0]
 
                         one_da_token_id_output = tokenizer.convert_tokens_to_ids(tokenizer.tokenize(one_da_text))
-                        if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("Verifier generated da") + Style.RESET_ALL + f"{one_da_text}")
+                        if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("Verifier generated dialog act") + Style.RESET_ALL + f"{one_da_text}")
 
                         if one_da_text:
 
@@ -843,7 +843,7 @@ if __name__ == '__main__':
                             turn_info["resp_verifier"] = one_nlg_text
                             prompt += "\n" + system_prefix(one_da_text, system_based_on_da)
                             logger.info("\n" + system_prefix(one_da_text, system_based_on_da))
-                            if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("Corrected system turn") + Style.RESET_ALL + f"{system_prefix(one_da_text, system_based_on_da)}")
+                            if debug: print(Fore.LIGHTYELLOW_EX + "{:<28}>> ".format("Revised system turn") + Style.RESET_ALL + f"{system_prefix(one_da_text, system_based_on_da)}")
 
                             # determine if it is the end
                             if ("[bye]" in one_da_text or "[welcome]" in one_da_text) and not not_mentioned_domain: 
@@ -877,7 +877,7 @@ if __name__ == '__main__':
                         # extract gpt3_da_reform 
                         if "Assistant(" in system_with_da:
                             gpt3_aspn_reform = system_with_da.split("Assistant(")[1].split("):")[0].strip()
-                            if debug: print(Fore.LIGHTYELLOW_EX + f"GPT-3 generated da: {gpt3_aspn_reform}" + Style.RESET_ALL)
+                            if debug: print(Fore.LIGHTYELLOW_EX + f"GPT-3 generated dialog act: {gpt3_aspn_reform}" + Style.RESET_ALL)
                         else:
                             gpt3_aspn_reform = ""
 

@@ -513,8 +513,8 @@ def construct_augment_dst(dialogs_with_turn_info, orig_augment_dst_turn_info, au
                                     if type:
                                         type_aug_num[type-1] += 1
                                         dialog_type_aug_num[type-1] += 1
-                                        if dialog_type_aug_num[1]>0 and dialog_type_aug_num[2]>0 and dialog_type_aug_num[3]>0:
-                                            exit()
+                                        # if dialog_type_aug_num[1]>0 and dialog_type_aug_num[2]>0 and dialog_type_aug_num[3]>0:
+                                        #     exit()
                                         
 
             # save the info in dict
