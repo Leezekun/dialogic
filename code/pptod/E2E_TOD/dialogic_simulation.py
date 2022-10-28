@@ -767,7 +767,7 @@ if __name__ == '__main__':
                                         # engine="text-davinci-002",
                                         engine=args.gpt3_version,
                                         prompt=prompt + "\n" + system_prefix(one_da_text),
-                                        temperature=0.8,
+                                        temperature=0.7,
                                         max_tokens=64,
                                         n=1,
                                         top_p=1,
