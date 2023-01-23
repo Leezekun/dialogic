@@ -1,5 +1,5 @@
 # Dialogic: Controllable Dialogue Simulation with In-Context Learning
-This is the official pytorch implementation of our paper titled [Controllable Dialogue Simulation with In-Context Learning](https://arxiv.org/abs/2210.04185), which got accepted to Findings of EMNLP 2022.
+This is the official pytorch implementation of our paper titled [Controllable Dialogue Simulation with In-Context Learning](https://arxiv.org/abs/2210.04185).
 
 <p align="center"><img width="100%" src="./imgs/demo_both.gif" /></p>
 
