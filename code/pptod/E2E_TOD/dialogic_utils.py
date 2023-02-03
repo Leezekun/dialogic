@@ -140,9 +140,8 @@ all_infslot = ["type", "parking", "pricerange", "internet", "stay", "day", "peop
 all_slots = all_reqslot + all_infslot + ["stay", "day", "people", "name", "destination", "departure", "department"]
 all_slots = set(all_slots)
 
-all_acts = [
-    "[request]", "[inform]", "[offerbook]", "[nobook]", "[reqmore]", "[bye]", "[welcome]", "[offerbooked]", "[recommend]", "[select]", "[thank]"
-]
+all_acts = ['[inform]', '[request]', '[nooffer]', '[recommend]', '[select]', '[offerbook]', '[offerbooked]', '[nobook]', '[bye]', '[greet]', '[reqmore]', '[welcome]']
+
 
 
 GENERAL_TYPO = {
